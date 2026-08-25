@@ -3,39 +3,75 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>minim - Focus & Task Suite</title>
+    <title>MINIM - ADHD Focus & Flow Suite</title>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><circle cx=%2250%22 cy=%2250%22 r=%2245%22 fill=%22%2310B981%22/><text y=%22.9em%22 x=%2250%22 font-size=%2250%22 text-anchor=%22middle%22 fill=%22%23FFF%22 font-family=%22sans-serif%22 font-weight=%22bold%22 dy=%22.1em%22>M</text></svg>">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
     <style>
         :root {
-            --bg-main: #0a0d14;
-            --bg-card: #131722;
-            --bg-hover: #1c2230;
-            --accent: #6366f1;
-            --accent-glow: rgba(99, 102, 241, 0.4);
-            --accent-secondary: #06b6d4;
-            --text-main: #f8fafc;
-            --text-muted: #94a3b8;
-            --border: #222a3d;
-            --success: #10b981;
-            --danger: #f43f5e;
+            --emerald: #10B981;
+            --emerald-glow: rgba(16, 185, 129, 0.4);
+            --emerald-light: #34D399;
+            --dark-bg: #090D16;
+            --glass-bg: rgba(15, 23, 42, 0.65);
+            --glass-border: rgba(255, 255, 255, 0.12);
+            --text-main: #F8FAFC;
+            --text-muted: #94A3B8;
         }
 
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            user-select: none;
         }
 
         body {
-            background-color: var(--bg-main);
+            background-color: var(--dark-bg);
             color: var(--text-main);
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Animated Mesh Gradient Background with Emerald */
+        .mesh-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
             height: 100vh;
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
-            background-image: 
-                radial-gradient(circle at 10% 20%, rgba(99, 102, 241, 0.08) 0%, transparent 40%),
-                radial-gradient(circle at 90% 80%, rgba(6, 182, 212, 0.06) 0%, transparent 40%);
+            z-index: -1;
+            background: radial-gradient(circle at 15% 20%, rgba(16, 185, 129, 0.25) 0%, transparent 40%),
+                        radial-gradient(circle at 85% 80%, rgba(5, 150, 105, 0.2) 0%, transparent 45%),
+                        radial-gradient(circle at 50% 50%, rgba(14, 116, 144, 0.25) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 10%, rgba(52, 211, 153, 0.15) 0%, transparent 35%);
+            background-size: 200% 200%;
+            animation: meshMove 18s ease infinite alternate;
+        }
+
+        @keyframes meshMove {
+            0% { background-position: 0% 0%; }
+            50% { background-position: 100% 100%; }
+            100% { background-position: 50% 100%; }
+        }
+
+        /* Ambient floating light particles for ADHD dopamine boost */
+        .particle {
+            position: absolute;
+            background: var(--emerald-light);
+            border-radius: 50%;
+            opacity: 0.3;
+            animation: floatParticle 10s infinite linear;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        @keyframes floatParticle {
+            0% { transform: translateY(100vh) scale(0.5); opacity: 0; }
+            50% { opacity: 0.5; }
+            100% { transform: translateY(-10vh) scale(1.2); opacity: 0; }
         }
 
         /* Top Navigation Bar */
@@ -43,568 +79,805 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 16px 32px;
-            border-bottom: 1px solid var(--border);
-            background: rgba(19, 23, 34, 0.8);
-            backdrop-filter: blur(12px);
-            z-index: 10;
-        }
-
-        .logo {
-            font-size: 1.5rem;
-            font-weight: 800;
-            letter-spacing: 2px;
-            color: var(--accent);
-            text-transform: lowercase;
-            text-shadow: 0 0 20px var(--accent-glow);
-        }
-
-        .nav-tabs {
-            display: flex;
-            gap: 12px;
-        }
-
-        .tab-btn {
-            background: transparent;
-            border: none;
-            color: var(--text-muted);
-            padding: 8px 18px;
-            border-radius: 10px;
-            cursor: pointer;
-            font-weight: 600;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .tab-btn:hover {
-            color: var(--text-main);
-            background: var(--bg-hover);
-        }
-
-        .tab-btn.active {
-            background: var(--accent);
-            color: white;
-            box-shadow: 0 0 20px var(--accent-glow);
-        }
-
-        /* Main App View Container */
-        .app-container {
-            flex: 1;
-            display: flex;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .view {
+            padding: 24px 48px;
+            width: 100%;
             position: absolute;
             top: 0;
             left: 0;
-            width: 100%;
-            height: 100%;
+            z-index: 10;
+        }
+
+        .logo-container {
             display: flex;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.4s ease, transform 0.4s ease;
-            transform: scale(0.98);
+            align-items: center;
+            gap: 12px;
         }
 
-        .view.active {
-            opacity: 1;
-            pointer-events: auto;
-            transform: scale(1);
+        .logo-badge {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--emerald), #059669);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 20px;
+            box-shadow: 0 0 20px var(--emerald-glow);
+            animation: pulseLogo 3s infinite;
         }
 
-        /* Home View Styles */
-        .home-view {
+        @keyframes pulseLogo {
+            0%, 100% { box-shadow: 0 0 15px var(--emerald-glow); }
+            50% { box-shadow: 0 0 25px rgba(16, 185, 129, 0.8); }
+        }
+
+        .logo-title {
+            font-size: 24px;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            background: linear-gradient(to right, #fff, var(--emerald-light));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .auth-nav-btn {
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid var(--glass-border);
+            padding: 10px 22px;
+            border-radius: 99px;
+            color: var(--text-main);
+            font-weight: 600;
+            cursor: pointer;
+            backdrop-filter: blur(12px);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .auth-nav-btn:hover {
+            background: var(--emerald);
+            border-color: var(--emerald);
+            box-shadow: 0 0 20px var(--emerald-glow);
+            transform: translateY(-2px);
+        }
+
+        /* Main App Interface Container */
+        main {
+            display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            text-align: center;
-            padding: 40px;
-            gap: 24px;
+            min-height: 100vh;
+            padding: 100px 20px 40px 20px;
         }
 
-        .home-view h1 {
-            font-size: 3.5rem;
-            font-weight: 900;
-            letter-spacing: -1px;
-            background: linear-gradient(135deg, #fff 30%, var(--text-muted));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            animation: floatText 4s ease-in-out infinite alternate;
-        }
-
-        @keyframes floatText {
-            0% { transform: translateY(0); }
-            100% { transform: translateY(-8px); }
-        }
-
-        .home-view p {
-            color: var(--text-muted);
-            max-width: 520px;
-            font-size: 1.15rem;
-            line-height: 1.6;
-        }
-
-        .start-btn {
-            font-size: 1.15rem;
-            padding: 16px 40px;
-            border-radius: 14px;
-            background: linear-gradient(135deg, var(--accent), var(--accent-secondary));
-            color: white;
-            font-weight: 700;
-            cursor: pointer;
-            border: none;
-            box-shadow: 0 0 30px var(--accent-glow);
-            transition: transform 0.2s ease, box-shadow 0.3s ease;
-        }
-
-        .start-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 0 40px var(--accent-glow);
-        }
-
-        /* Split Screen (Focus + Organize) View */
-        .split-view {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
+        .app-card {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border-radius: 32px;
+            padding: 48px 60px;
             width: 100%;
-            height: 100%;
-            padding: 24px;
-            gap: 24px;
-        }
-
-        .panel {
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: 20px;
-            padding: 24px;
+            max-width: 680px;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.1);
             display: flex;
             flex-direction: column;
-            overflow-y: auto;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-            backdrop-filter: blur(10px);
-        }
-
-        .panel h2 {
-            font-size: 1.25rem;
-            margin-bottom: 16px;
-            color: var(--text-main);
-            display: flex;
-            justify-content: space-between;
             align-items: center;
+            position: relative;
+            overflow: hidden;
+            animation: cardAppear 0.8s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
-        /* Todo List Styles */
-        .task-input-group {
+        @keyframes cardAppear {
+            0% { opacity: 0; transform: translateY(30px) scale(0.95); }
+            100% { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        /* Active Task Display & Inline Editor */
+        .task-display-area {
             display: flex;
-            gap: 12px;
-            margin-bottom: 16px;
-        }
-
-        .task-input {
-            flex: 1;
-            background: var(--bg-main);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 14px;
-            color: var(--text-main);
-            font-size: 1rem;
-            transition: border-color 0.2s ease, box-shadow 0.2s ease;
-        }
-
-        .task-input:focus {
-            outline: none;
-            border-color: var(--accent);
-            box-shadow: 0 0 10px var(--accent-glow);
-        }
-
-        .btn {
-            background: var(--accent);
-            color: white;
-            border: none;
-            padding: 0 24px;
-            border-radius: 12px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s ease;
-        }
-
-        .btn:hover {
-            box-shadow: 0 0 15px var(--accent-glow);
-            filter: brightness(1.1);
-        }
-
-        .btn:active {
-            transform: scale(0.96);
-        }
-
-        .task-list {
-            list-style: none;
-            display: flex;
-            flex-direction: column;
+            align-items: center;
             gap: 10px;
-            overflow-y: auto;
-            flex: 1;
+            margin-bottom: 28px;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 8px 20px;
+            border-radius: 99px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            transition: all 0.3s ease;
         }
 
-        .task-item {
-            background: var(--bg-main);
-            border: 1px solid var(--border);
-            padding: 14px 18px;
-            border-radius: 14px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            animation: slideIn 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        .task-display-area:hover {
+            border-color: var(--emerald);
+            background: rgba(16, 185, 129, 0.08);
         }
 
-        .task-item:hover {
-            border-color: var(--accent);
-            transform: translateX(4px);
+        .current-task-text {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--text-main);
+            letter-spacing: -0.2px;
         }
 
-        @keyframes slideIn {
-            from { opacity: 0; transform: translateY(12px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .task-item.completed {
-            opacity: 0.6;
-            background: rgba(16, 185, 129, 0.03);
-            border-color: rgba(16, 185, 129, 0.2);
-        }
-
-        .task-item.completed span {
-            text-decoration: line-through;
-            color: var(--text-muted);
-        }
-
-        .task-left {
-            display: flex;
-            align-items: center;
-            gap: 14px;
+        .edit-task-btn {
+            background: none;
+            border: none;
+            color: var(--emerald-light);
             cursor: pointer;
-            flex: 1;
+            font-size: 14px;
+            opacity: 0.8;
+            transition: opacity 0.2s;
         }
 
-        .task-checkbox {
-            width: 20px;
-            height: 20px;
-            accent-color: var(--success);
-            cursor: pointer;
+        .edit-task-btn:hover {
+            opacity: 1;
         }
 
-        .task-delete {
+        /* Timer Mode Selector Pills */
+        .mode-selector {
+            display: flex;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 6px;
+            border-radius: 99px;
+            gap: 6px;
+            margin-bottom: 36px;
+            border: 1px solid var(--glass-border);
+        }
+
+        .mode-btn {
             background: transparent;
             border: none;
             color: var(--text-muted);
+            padding: 10px 24px;
+            border-radius: 99px;
+            font-weight: 600;
+            font-size: 14px;
             cursor: pointer;
-            font-size: 1.1rem;
-            padding: 4px 8px;
-            border-radius: 6px;
-            transition: all 0.2s ease;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        .task-delete:hover {
-            color: var(--danger);
-            background: rgba(244, 63, 94, 0.1);
+        .mode-btn.active {
+            background: var(--emerald);
+            color: #090D16;
+            box-shadow: 0 0 15px var(--emerald-glow);
+            font-weight: 700;
         }
 
-        /* Timer Panel Styles */
-        .timer-display {
-            flex: 1;
+        .mode-btn:hover:not(.active) {
+            color: var(--text-main);
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        /* Giant Addictive Countdown Display */
+        .timer-countdown {
+            font-size: 96px;
+            font-weight: 800;
+            letter-spacing: -3px;
+            margin-bottom: 36px;
+            font-variant-numeric: tabular-nums;
+            background: linear-gradient(to bottom, #FFFFFF 30%, #94A3B8 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            transition: transform 0.2s ease;
+        }
+
+        .timer-countdown.pulse {
+            animation: timerPulse 1s infinite alternate;
+        }
+
+        @keyframes timerPulse {
+            0% { transform: scale(1); text-shadow: 0 0 20px var(--emerald-glow); }
+            100% { transform: scale(1.02); text-shadow: 0 0 35px var(--emerald); }
+        }
+
+        /* Action Control Bar */
+        .controls-row {
             display: flex;
-            flex-direction: column;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 36px;
+        }
+
+        .primary-action-btn {
+            background: var(--emerald);
+            border: none;
+            color: #090D16;
+            padding: 16px 48px;
+            border-radius: 99px;
+            font-size: 18px;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 10px 25px var(--emerald-glow);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .primary-action-btn:hover {
+            transform: translateY(-3px);
+            background: var(--emerald-light);
+            box-shadow: 0 15px 35px rgba(16, 185, 129, 0.6);
+        }
+
+        .primary-action-btn:active {
+            transform: translateY(-1px);
+        }
+
+        .secondary-icon-btn {
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid var(--glass-border);
+            width: 52px;
+            height: 52px;
+            border-radius: 50%;
+            display: flex;
             align-items: center;
             justify-content: center;
-            gap: 24px;
-        }
-
-        .time-ring {
-            font-size: 6rem;
-            font-weight: 900;
-            letter-spacing: -3px;
             color: var(--text-main);
-            text-shadow: 0 0 40px var(--accent-glow);
-            font-variant-numeric: tabular-nums;
-        }
-
-        .timer-controls {
-            display: flex;
-            gap: 14px;
-        }
-
-        .sound-selector {
-            margin-top: 10px;
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-            width: 100%;
-            max-width: 280px;
-        }
-
-        .sound-selector select {
-            background: var(--bg-main);
-            border: 1px solid var(--border);
-            color: var(--text-main);
-            padding: 12px;
-            border-radius: 10px;
-            font-size: 0.9rem;
             cursor: pointer;
-            outline: none;
-            transition: border-color 0.2s ease;
+            transition: all 0.3s ease;
         }
 
-        .sound-selector select:focus {
-            border-color: var(--accent);
+        .secondary-icon-btn:hover {
+            background: rgba(255, 255, 255, 0.15);
+            border-color: var(--emerald);
+            color: var(--emerald-light);
+            transform: scale(1.05);
         }
 
-        /* ADHD Dopamine Streak Counter */
-        .streak-banner {
-            font-size: 0.85rem;
-            color: var(--success);
-            background: rgba(16, 185, 129, 0.1);
-            border: 1px solid rgba(16, 185, 129, 0.2);
-            padding: 6px 14px;
-            border-radius: 20px;
-            font-weight: 600;
-            display: inline-flex;
+        /* ADHD Micro-Engagement Dots Tracker */
+        .dopamine-progress {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 24px;
+        }
+
+        .dopamine-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.15);
+            transition: all 0.4s ease;
+        }
+
+        .dopamine-dot.completed {
+            background: var(--emerald);
+            box-shadow: 0 0 10px var(--emerald);
+            transform: scale(1.2);
+        }
+
+        /* Bottom Floating Tool Dock */
+        .bottom-dock {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            max-width: 680px;
+            margin-top: 16px;
+            padding: 0 10px;
+        }
+
+        .dock-btn {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            backdrop-filter: blur(12px);
+            width: 48px;
+            height: 48px;
+            border-radius: 16px;
+            display: flex;
             align-items: center;
-            gap: 6px;
-            margin-bottom: 12px;
+            justify-content: center;
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .dock-btn:hover {
+            color: var(--emerald-light);
+            border-color: var(--emerald);
+            background: rgba(16, 185, 129, 0.1);
+            transform: translateY(-3px);
+        }
+
+        /* Interactive Modals (Auth, Settings, Ambient Sounds) */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(5, 8, 15, 0.8);
+            backdrop-filter: blur(8px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 100;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .modal-box {
+            background: #0F172A;
+            border: 1px solid var(--glass-border);
+            padding: 40px;
+            border-radius: 28px;
+            width: 100%;
+            max-width: 440px;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.6);
+            transform: scale(0.95);
+            transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .modal-overlay.active .modal-box {
+            transform: scale(1);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+
+        .modal-title {
+            font-size: 22px;
+            font-weight: 700;
+            color: var(--text-main);
+        }
+
+        .close-modal-btn {
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            font-size: 18px;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+
+        .close-modal-btn:hover {
+            color: var(--text-main);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-muted);
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .form-input {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--glass-border);
+            padding: 14px 18px;
+            border-radius: 12px;
+            color: var(--text-main);
+            font-size: 15px;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .form-input:focus {
+            border-color: var(--emerald);
+            box-shadow: 0 0 10px var(--emerald-glow);
+        }
+
+        .submit-btn {
+            width: 100%;
+            background: var(--emerald);
+            border: none;
+            color: #090D16;
+            padding: 14px;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background 0.2s, transform 0.2s;
+            margin-top: 10px;
+        }
+
+        .submit-btn:hover {
+            background: var(--emerald-light);
+            transform: translateY(-2px);
+        }
+
+        /* Sound Grid inside modal */
+        .sound-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .sound-option {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid var(--glass-border);
+            padding: 16px;
+            border-radius: 16px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .sound-option.active {
+            border-color: var(--emerald);
+            background: rgba(16, 185, 129, 0.15);
+            color: var(--emerald-light);
+        }
+
+        .sound-option i {
+            font-size: 24px;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .sound-option span {
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        /* Toast notification */
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: #0F172A;
+            border: 1px solid var(--emerald);
+            padding: 14px 24px;
+            border-radius: 14px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            z-index: 200;
+            transform: translateY(100px);
+            opacity: 0;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .toast.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .toast i {
+            color: var(--emerald);
+            font-size: 18px;
         }
     </style>
 </head>
 <body>
 
+    <!-- Animated Mesh Gradient -->
+    <div class="mesh-background" id="meshBg"></div>
+
+    <!-- Top Navigation Header -->
     <header>
-        <div class="logo">minim</div>
-        <div class="nav-tabs">
-            <button class="tab-btn active" onclick="switchView('home')">Home</button>
-            <button class="tab-btn" onclick="switchView('split')">Focus & Organize</button>
+        <div class="logo-container">
+            <div class="logo-badge">M</div>
+            <span class="logo-title">MINIM</span>
         </div>
+        <button class="auth-nav-btn" id="authNavBtn" onclick="openAuthModal()">
+            <i class="fa-solid fa-user-circle"></i>
+            <span id="authBtnText">Sign In / Up</span>
+        </button>
     </header>
 
-    <div class="app-container">
-        <!-- Home View -->
-        <div id="home-view" class="view home-view active">
-            <div class="streak-banner" id="streakBadge">🔥 0 Tasks Destroyed Today</div>
-            <h1>Lock In. Zero Friction.</h1>
-            <p>Your ultra-clean, high-dopamine productivity sanctuary built for deep focus sessions on laptop and iPad.</p>
-            <button class="start-btn" onclick="switchView('split')">Enter Workspace</button>
+    <!-- Main Workspace Container -->
+    <main>
+        <div class="app-card">
+            
+            <!-- Task Display & Quick Editor -->
+            <div class="task-display-area">
+                <i class="fa-solid fa-mug-hot" style="color: var(--emerald-light);"></i>
+                <span class="current-task-text" id="taskTextDisplay">Finalize presentation & deep work flow</span>
+                <button class="edit-task-btn" onclick="promptEditTask()" title="Edit Focus Goal">
+                    <i class="fa-solid fa-pen"></i>
+                </button>
+            </div>
+
+            <!-- Timer Mode Pills -->
+            <div class="mode-selector">
+                <button class="mode-btn active" onclick="switchMode('focus', 25, this)">Focus</button>
+                <button class="mode-btn" onclick="switchMode('short', 5, this)">Short Break</button>
+                <button class="mode-btn" onclick="switchMode('long', 15, this)">Long Break</button>
+            </div>
+
+            <!-- Giant Addictive Countdown Display -->
+            <div class="timer-countdown" id="timerDisplay">25:00</div>
+
+            <!-- ADHD Dopamine Progress Dots -->
+            <div class="dopamine-progress" id="dopamineDots">
+                <div class="dopamine-dot completed"></div>
+                <div class="dopamine-dot"></div>
+                <div class="dopamine-dot"></div>
+                <div class="dopamine-dot"></div>
+            </div>
+
+            <!-- Action Control Buttons -->
+            <div class="controls-row">
+                <button class="primary-action-btn" id="startPauseBtn" onclick="toggleTimer()">
+                    <i class="fa-solid fa-play" id="playPauseIcon"></i>
+                    <span id="startPauseLabel">Start Focus</span>
+                </button>
+                <button class="secondary-icon-btn" onclick="resetTimer()" title="Reset Timer">
+                    <i class="fa-solid fa-rotate-right"></i>
+                </button>
+                <button class="secondary-icon-btn" onclick="toggleFullscreen()" title="Fullscreen Immersion">
+                    <i class="fa-solid fa-expand"></i>
+                </button>
+            </div>
+
         </div>
 
-        <!-- Split Screen View -->
-        <div id="split-view" class="view">
-            <div class="split-view">
-                <!-- To-Do Panel -->
-                <div class="panel">
-                    <h2>To-Do Tasks</h2>
-                    <div class="task-input-group">
-                        <input type="text" id="taskInput" class="task-input" placeholder="What needs to be done? (Press Enter)">
-                        <button class="btn" onclick="addTask()">Add</button>
-                    </div>
-                    <ul id="taskList" class="task-list"></ul>
-                </div>
+        <!-- Bottom Floating Dock -->
+        <div class="bottom-dock">
+            <button class="dock-btn" onclick="openSoundModal()" title="Ambient Focus Sounds">
+                <i class="fa-solid fa-music"></i>
+            </button>
+            <button class="dock-btn" onclick="promptEditTask()" title="Quick Task Settings">
+                <i class="fa-solid fa-sliders"></i>
+            </button>
+        </div>
+    </main>
 
-                <!-- Timer Panel -->
-                <div class="panel">
-                    <h2>Focus Timer</h2>
-                    <div class="timer-display">
-                        <div class="time-ring" id="timeDisplay">25:00</div>
-                        <div class="timer-controls">
-                            <button class="btn" onclick="toggleTimer()">Start / Pause</button>
-                            <button class="btn" style="background: var(--bg-hover); color: var(--text-main);" onclick="resetTimer()">Reset</button>
-                        </div>
-                        <div class="sound-selector">
-                            <label style="font-size: 0.85rem; color: var(--text-muted);">Custom Completion Sound</label>
-                            <select id="soundChoice">
-                                <option value="chime">Digital Chime</option>
-                                <option value="bell">Zen Bell</option>
-                                <option value="pop">Pop Bubble</option>
-                                <option value="laser">Retro Laser</option>
-                                <option value="success">Success Chord</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
+    <!-- Authentication Modal -->
+    <div class="modal-overlay" id="authModal">
+        <div class="modal-box">
+            <div class="modal-header">
+                <h3 class="modal-title" id="authModalTitle">Welcome to MINIM</h3>
+                <button class="close-modal-btn" onclick="closeAuthModal()"><i class="fa-solid fa-xmark"></i></button>
             </div>
+            <div class="form-group">
+                <label class="form-label">Email Address</label>
+                <input type="email" class="form-input" id="userEmailInput" placeholder="student@adhd-flow.com">
+            </div>
+            <div class="form-group">
+                <label class="form-label">Password / Passcode</label>
+                <input type="password" class="form-input" id="userPasswordInput" placeholder="••••••••">
+            </div>
+            <button class="submit-btn" onclick="handleAuthSubmit()">Authenticate Profile</button>
         </div>
     </div>
 
+    <!-- Ambient Sounds Modal -->
+    <div class="modal-overlay" id="soundModal">
+        <div class="modal-box">
+            <div class="modal-header">
+                <h3 class="modal-title">ADHD Ambient Soundscape</h3>
+                <button class="close-modal-btn" onclick="closeSoundModal()"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="sound-grid">
+                <div class="sound-option active" id="sound-none" onclick="selectSound('none')">
+                    <i class="fa-solid fa-volume-xmark"></i>
+                    <span>Silence</span>
+                </div>
+                <div class="sound-option" id="sound-rain" onclick="selectSound('rain')">
+                    <i class="fa-solid fa-cloud-rain"></i>
+                    <span>Rainfall</span>
+                </div>
+                <div class="sound-option" id="sound-cafe" onclick="selectSound('cafe')">
+                    <i class="fa-solid fa-mug-saucer"></i>
+                    <span>Coffee Shop</span>
+                </div>
+                <div class="sound-option" id="sound-brown" onclick="selectSound('brown')">
+                    <i class="fa-solid fa-wave-square"></i>
+                    <span>Brown Noise</span>
+                </div>
+            </div>
+            <button class="submit-btn" onclick="closeSoundModal()">Apply Soundscape</button>
+        </div>
+    </div>
+
+    <!-- Toast Notification Popup -->
+    <div class="toast" id="toastNotification">
+        <i class="fa-solid fa-circle-check" id="toastIcon"></i>
+        <span id="toastText">Action completed successfully</span>
+    </div>
+
+    <!-- JavaScript Application Logic -->
     <script>
-        // View Switcher logic
-        function switchView(target) {
-            document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
-            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-            
-            if(target === 'home') {
-                document.getElementById('home-view').classList.add('active');
-                document.querySelectorAll('.tab-btn')[0].classList.add('active');
-            } else {
-                document.getElementById('split-view').classList.add('active');
-                document.querySelectorAll('.tab-btn')[1].classList.add('active');
-            }
-        }
-
-        // To-Do List & Dopamine Streak Logic
-        let tasks = JSON.parse(localStorage.getItem('minim_tasks')) || [];
-        let completedToday = parseInt(localStorage.getItem('minim_streak')) || 0;
-
-        function updateStreakDisplay() {
-            document.getElementById('streakBadge').innerText = `🔥 ${completedToday} Tasks Destroyed Today`;
-            localStorage.setItem('minim_streak', completedToday);
-        }
-
-        function renderTasks() {
-            const list = document.getElementById('taskList');
-            list.innerHTML = '';
-            tasks.forEach((task, index) => {
-                const li = document.createElement('li');
-                li.className = `task-item ${task.completed ? 'completed' : ''}`;
-                li.innerHTML = `
-                    <div class="task-left" onclick="toggleTask(${index})">
-                        <input type="checkbox" class="task-checkbox" ${task.completed ? 'checked' : ''} onclick="event.stopPropagation(); toggleTask(${index})">
-                        <span>${escapeHtml(task.text)}</span>
-                    </div>
-                    <button class="task-delete" onclick="deleteTask(event, ${index})">✕</button>
-                `;
-                list.appendChild(li);
-            });
-            localStorage.setItem('minim_tasks', JSON.stringify(tasks));
-            updateStreakDisplay();
-        }
-
-        function addTask() {
-            const input = document.getElementById('taskInput');
-            const text = input.value.trim();
-            if(!text) return;
-            tasks.push({ text, completed: false });
-            input.value = '';
-            renderTasks();
-        }
-
-        function toggleTask(index) {
-            tasks[index].completed = !tasks[index].completed;
-            if(tasks[index].completed) {
-                completedToday++;
-                playSound();
-            } else {
-                if(completedToday > 0) completedToday--;
-            }
-            renderTasks();
-        }
-
-        function deleteTask(event, index) {
-            event.stopPropagation();
-            tasks.splice(index, 1);
-            renderTasks();
-        }
-
-        document.getElementById('taskInput').addEventListener('keypress', (e) => {
-            if(e.key === 'Enter') addTask();
-        });
-
-        function escapeHtml(str) {
-            return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
-        }
-
-        // Timer Logic
-        let timeLeft = 1500;
-        let timerId = null;
+        // State Management
+        let timerDuration = 25 * 60;
+        let timeLeft = 25 * 60;
+        let timerInterval = null;
         let isRunning = false;
+        let currentMode = 'focus';
+        let currentUser = null;
+        let activeSound = 'none';
 
+        // Floating ambient particle generator for ADHD visual stimulation
+        function createParticles() {
+            const container = document.body;
+            for (let i = 0; i < 15; i++) {
+                const p = document.createElement('div');
+                p.classList.add('particle');
+                const size = Math.random() * 6 + 2;
+                p.style.width = `${size}px`;
+                p.style.height = `${size}px`;
+                p.style.left = `${Math.random() * 100}vw`;
+                p.style.animationDuration = `${Math.random() * 8 + 6}s`;
+                p.style.animationDelay = `${Math.random() * 5}s`;
+                container.appendChild(p);
+            }
+        }
+        createParticles();
+
+        // Timer Format Converter
         function updateTimerDisplay() {
             const minutes = Math.floor(timeLeft / 60);
             const seconds = timeLeft % 60;
-            document.getElementById('timeDisplay').innerText = 
-                `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            const formatted = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+            document.getElementById('timerDisplay').textContent = formatted;
+            document.title = `(${formatted}) MINIM - Focus Suite`;
         }
 
+        // Timer Core Mechanics
         function toggleTimer() {
-            if(isRunning) {
-                clearInterval(timerId);
-                isRunning = false;
-            } else {
+            const btnLabel = document.getElementById('startPauseLabel');
+            const playIcon = document.getElementById('playPauseIcon');
+            const timerEl = document.getElementById('timerDisplay');
+
+            if (!isRunning) {
                 isRunning = true;
-                timerId = setInterval(() => {
-                    if(timeLeft > 0) {
+                btnLabel.textContent = 'Pause Focus';
+                playIcon.className = 'fa-solid fa-pause';
+                timerEl.classList.add('pulse');
+                
+                timerInterval = setInterval(() => {
+                    if (timeLeft > 0) {
                         timeLeft--;
                         updateTimerDisplay();
                     } else {
-                        clearInterval(timerId);
+                        clearInterval(timerInterval);
                         isRunning = false;
-                        playSound();
-                        alert("Session complete! Great job locking in.");
+                        btnLabel.textContent = 'Start Focus';
+                        playIcon.className = 'fa-solid fa-play';
+                        timerEl.classList.remove('pulse');
+                        triggerAudioChime();
+                        showToast('Focus session complete! Great job staying on track.');
                     }
                 }, 1000);
+            } else {
+                clearInterval(timerInterval);
+                isRunning = false;
+                btnLabel.textContent = 'Resume Focus';
+                playIcon.className = 'fa-solid fa-play';
+                timerEl.classList.remove('pulse');
             }
         }
 
         function resetTimer() {
-            clearInterval(timerId);
+            clearInterval(timerInterval);
             isRunning = false;
-            timeLeft = 1500;
+            document.getElementById('startPauseLabel').textContent = 'Start Focus';
+            document.getElementById('playPauseIcon').className = 'fa-solid fa-play';
+            document.getElementById('timerDisplay').classList.remove('pulse');
+            
+            if (currentMode === 'focus') timeLeft = 25 * 60;
+            if (currentMode === 'short') timeLeft = 5 * 60;
+            if (currentMode === 'long') timeLeft = 15 * 60;
             updateTimerDisplay();
         }
 
-        // Audio Feedback Synthesizer (5 Custom Sound Effects)
-        function playSound() {
+        function switchMode(mode, minutes, element) {
+            currentMode = mode;
+            document.querySelectorAll('.mode-btn').forEach(btn => btn.classList.remove('active'));
+            element.classList.add('active');
+            
+            clearInterval(timerInterval);
+            isRunning = false;
+            document.getElementById('startPauseLabel').textContent = 'Start Focus';
+            document.getElementById('playPauseIcon').className = 'fa-solid fa-play';
+            document.getElementById('timerDisplay').classList.remove('pulse');
+            
+            timerDuration = minutes * 60;
+            timeLeft = timerDuration;
+            updateTimerDisplay();
+        }
+
+        // Web Audio API Chime for Session Completion
+        function triggerAudioChime() {
             try {
                 const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-                const osc = audioCtx.createOscillator();
-                const gainNode = audioCtx.createGain();
-                osc.connect(gainNode);
-                gainNode.connect(audioCtx.destination);
-                
-                const type = document.getElementById('soundChoice').value;
-                if(type === 'chime') {
-                    osc.frequency.setValueAtTime(587.33, audioCtx.currentTime); // D5
-                    gainNode.gain.setValueAtTime(0.1, audioCtx.currentTime);
-                    gainNode.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 1.2);
-                    osc.start();
-                    osc.stop(audioCtx.currentTime + 1.2);
-                } else if(type === 'bell') {
-                    osc.frequency.setValueAtTime(440, audioCtx.currentTime); // A4
-                    gainNode.gain.setValueAtTime(0.15, audioCtx.currentTime);
-                    gainNode.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 2.0);
-                    osc.start();
-                    osc.stop(audioCtx.currentTime + 2.0);
-                } else if(type === 'pop') {
-                    osc.frequency.setValueAtTime(800, audioCtx.currentTime);
-                    osc.frequency.exponentialRampToValueAtTime(200, audioCtx.currentTime + 0.1);
-                    gainNode.gain.setValueAtTime(0.1, audioCtx.currentTime);
-                    gainNode.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.1);
-                    osc.start();
-                    osc.stop(audioCtx.currentTime + 0.1);
-                } else if(type === 'laser') {
-                    osc.frequency.setValueAtTime(900, audioCtx.currentTime);
-                    osc.frequency.exponentialRampToValueAtTime(100, audioCtx.currentTime + 0.3);
-                    gainNode.gain.setValueAtTime(0.1, audioCtx.currentTime);
-                    gainNode.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.3);
-                    osc.start();
-                    osc.stop(audioCtx.currentTime + 0.3);
-                } else {
-                    // Success Chord
-                    [523.25, 659.25, 783.99].forEach((freq, i) => {
-                        const o = audioCtx.createOscillator();
-                        const g = audioCtx.createGain();
-                        o.connect(g);
-                        g.connect(audioCtx.destination);
-                        o.frequency.setValueAtTime(freq, audioCtx.currentTime + (i * 0.1));
-                        g.gain.setValueAtTime(0.08, audioCtx.currentTime + (i * 0.1));
-                        g.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.8);
-                        o.start(audioCtx.currentTime + (i * 0.1));
-                        o.stop(audioCtx.currentTime + 0.8);
-                    });
-                }
+                [523.25, 659.25, 783.99].forEach((freq, i) => {
+                    const osc = audioCtx.createOscillator();
+                    const g = audioCtx.createGain();
+                    osc.type = 'sine';
+                    osc.frequency.value = freq;
+                    g.gain.setValueAtTime(0.08, audioCtx.currentTime + (i * 0.1));
+                    g.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + (i * 0.1) + 0.8);
+                    osc.start(audioCtx.currentTime + (i * 0.1));
+                    osc.stop(audioCtx.currentTime + (i * 0.1) + 0.8);
+                    osc.connect(g);
+                    g.connect(audioCtx.destination);
+                });
             } catch(e) {
                 console.log("Audio context not initialized yet.");
             }
         }
 
-        renderTasks();
+        // Interactive Task Customizer
+        function promptEditTask() {
+            const newGoal = prompt("What specific hyper-focus task are you targeting right now?", document.getElementById('taskTextDisplay').textContent);
+            if (newGoal && newGoal.trim() !== "") {
+                document.getElementById('taskTextDisplay').textContent = newGoal.trim();
+                showToast('Focus goal updated successfully!');
+            }
+        }
+
+        // Fullscreen Mode Handler
+        function toggleFullscreen() {
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen().catch(err => {
+                    alert(`Error attempting to enable fullscreen: ${err.message}`);
+                });
+            } else {
+                if (document.exitFullscreen) {
+                    document.exitFullscreen();
+                }
+            }
+        }
+
+        // Authentication Modal Controls
+        function openAuthModal() {
+            document.getElementById('authModal').classList.add('active');
+        }
+        function closeAuthModal() {
+            document.getElementById('authModal').classList.remove('active');
+        }
+        function handleAuthSubmit() {
+            const email = document.getElementById('userEmailInput').value;
+            if (email) {
+                currentUser = email;
+                document.getElementById('authBtnText').textContent = email.split('@')[0];
+                closeAuthModal();
+                showToast(`Welcome back, ${email.split('@')[0]}! Account synced.`);
+            } else {
+                alert('Please enter a valid email address.');
+            }
+        }
+
+        // Soundscape Modal Controls
+        function openSoundModal() {
+            document.getElementById('soundModal').classList.add('active');
+        }
+        function closeSoundModal() {
+            document.getElementById('soundModal').classList.remove('active');
+        }
+        function selectSound(soundType) {
+            activeSound = soundType;
+            document.querySelectorAll('.sound-option').forEach(el => el.classList.remove('active'));
+            document.getElementById(`sound-${soundType}`).classList.add('active');
+            showToast(`Ambient sound updated: ${soundType.toUpperCase()}`);
+        }
+
+        // Toast Feedback System
+        function showToast(message) {
+            const toast = document.getElementById('toastNotification');
+            document.getElementById('toastText').textContent = message;
+            toast.classList.add('show');
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3500);
+        }
+
+        // Initialize state display on load
         updateTimerDisplay();
     </script>
 </body>
